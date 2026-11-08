@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Muhammad Abdul Hadi | Data Science Universe</title>
+<meta name="description" content="Interactive portfolio of Muhammad Abdul Hadi, Data Science undergraduate at PAF-IAST: Python, C++, data pipelines and AI monitoring prototypes.">
+<meta name="theme-color" content="#05070d">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2305070d'/%3E%3Cpath d='M6 22 12 12l5 6 9-12' stroke='%2322d3ee' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#playground">Skip to content</a>
+
+<header class="nav-wrap">
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <div class="nav">
+    <a href="#top" class="brand" aria-label="Abdul Hadi, back to top"><span>~/</span>abdul.hadi<i class="caret" aria-hidden="true"></i></a>
+    <nav id="menu" class="menu" aria-label="Primary">
+      <a href="#playground">Playground</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#journey">Journey</a>
+      <a href="#terminal">Terminal</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button id="burger" class="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section id="top" class="hero">
+    <canvas id="net" aria-hidden="true"></canvas>
+    <div class="hero-shade" aria-hidden="true"></div>
+    <div class="wrap hero-in">
+      <div class="hero-text">
+        <p class="tag">Data Science · Python · C++ · AI</p>
+        <h1>Exploring the World<br>Through <span class="grad">Data.</span></h1>
+        <p class="typed-line"><span class="prompt">&gt;&gt;&gt;</span> currently <b id="typed">cleaning sensor data</b><i class="caret" aria-hidden="true"></i></p>
+        <p class="lead">I'm <strong>Muhammad Abdul Hadi</strong>, a Data Science student passionate about Python, AI and machine learning, building data pipelines and monitoring prototypes that solve real-world problems.</p>
+        <div class="cta">
+          <a class="btn primary" href="#projects">Explore projects ↓</a>
+          <a class="btn" href="#playground">Open the playground</a>
+          <a class="btn ghost" href="cv.pdf" download="MuhammadAbdulHadi_CV.pdf">⭳ CV</a>
+        </div>
+      </div>
+      <aside class="id-card glass" aria-label="Identity card">
+        <img src="profile.jpeg" alt="Portrait of Muhammad Abdul Hadi" width="150" height="150">
+        <div>
+          <p class="id-name">Abdul Hadi</p>
+          <p>🎓 PAF-IAST · BSc DS</p>
+          <p>📍 Islamabad, Pakistan</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- PLAYGROUND -->
+  <section id="playground" class="sec wrap">
+    <header class="sec-head reveal">
+      <p class="tag">01 / data playground</p>
+      <h2>Break the data, then catch it.</h2>
+      <p>A week of hourly sensor readings with hidden faults injected at known times. Tune the detector and watch precision and recall change in real time.</p>
+    </header>
+
+    <div class="glass controls reveal">
+      <div>
+        <p class="label" id="metric-label">Sensor</p>
+        <div class="pills" id="metrics" role="group" aria-labelledby="metric-label"></div>
+        <div class="pills small" id="ranges" role="group" aria-label="Time range"></div>
+      </div>
+      <label class="slider">
+        <span class="label">Sensitivity threshold <b id="k-out">3.0σ</b></span>
+        <input id="k" type="range" min="1.5" max="5" step="0.1" value="3">
+      </label>
+      <label class="slider">
+        <span class="label">Rolling window <b id="w-out">12h</b></span>
+        <input id="w" type="range" min="6" max="36" step="2" value="12">
+      </label>
+      <button id="deseason" class="toggle on" type="button" role="switch" aria-checked="true" title="Subtract the typical value for each hour of the day before scoring">Remove daily cycle: on</button>
+    </div>
+
+    <div class="stats">
+      <div class="glass stat"><p class="label">Mean</p><p class="num" id="s-mean">–</p><p class="hint" id="s-std"></p></div>
+      <div class="glass stat"><p class="label">Flagged in view</p><p class="num pink" id="s-flag">–</p><p class="hint" id="s-truth"></p></div>
+      <div class="glass stat"><p class="label">Precision</p><p class="num cyan" id="s-prec">–</p><p class="hint" id="s-fp"></p></div>
+      <div class="glass stat"><p class="label">Recall</p><p class="num blue" id="s-rec">–</p><p class="hint" id="s-tp"></p></div>
+    </div>
+
+    <div class="glass chartbox">
+      <div class="chart-head">
+        <h3 id="chart-title">Temperature</h3>
+        <p class="legend">
+          <span><i class="dot" id="lg-color"></i>reading</span>
+          <span><i class="dot pinkbg"></i>flagged</span>
+          <span><i class="dot ring"></i>true fault</span>
+          <span><i class="dash"></i><em id="lg-band">±3.0σ</em> band</span>
+        </p>
+      </div>
+      <div class="chart" id="chart" role="img" aria-label="Line chart of the selected sensor with flagged anomalies"></div>
+    </div>
+
+    <div class="two">
+      <div class="glass chartbox">
+        <h3>Detector vs fixed-threshold baseline</h3>
+        <p class="note">Same benchmark idea as FloraSentinel: a fixed care-range rule against a rolling statistical detector.</p>
+        <div class="bars" id="compare" role="img" aria-label="Bar chart comparing precision and recall of the two detectors"></div>
+        <p class="legend center"><span><i class="dot cyanbg"></i>Rolling z-score</span><span><i class="dot violetbg"></i>Fixed threshold</span></p>
+      </div>
+      <div class="glass chartbox">
+        <h3>Distribution of readings</h3>
+        <p class="note">Histogram of the visible window. Tails are where the faults hide.</p>
+        <div class="hist" id="hist" role="img" aria-label="Histogram of the selected sensor readings"></div>
+      </div>
+    </div>
+    <p class="insight" id="insight" aria-live="polite"></p>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="sec wrap">
+    <header class="sec-head reveal">
+      <p class="tag">02 / skill constellation</p>
+      <h2>A map, not a progress bar.</h2>
+      <p>Skills are nodes; the way they connect is how I actually use them. Tap a node to see what it is and where it shows up.</p>
+    </header>
+    <div class="skills-grid">
+      <div class="glass map reveal">
+        <svg id="skillmap" viewBox="0 0 640 640" role="group" aria-label="Interactive skill constellation"></svg>
+        <p class="legend center"><span><i class="dot cyanbg"></i>Core</span><span><i class="dot bluebg"></i>Learning</span><span><i class="dot violetbg"></i>Next up</span></p>
+      </div>
+      <div class="side reveal">
+        <article class="glass skill-panel" id="skillpanel" aria-live="polite"></article>
+        <div class="glass pad"><div class="pills" id="skilllist" role="group" aria-label="All skills"></div>
+          <p class="note">Python and C++ are what I've shipped projects in. The rest is the stack I'm actively building toward.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="sec wrap">
+    <header class="sec-head reveal">
+      <p class="tag">03 / projects</p>
+      <h2>Things I've built.</h2>
+      <p>Three projects, from a data pipeline for plant monitoring to a polymorphic hospital simulator. Each has a live behaviour you can poke in the terminal below.</p>
+    </header>
+    <div class="pills reveal" id="filters" role="group" aria-label="Filter projects by category"></div>
+    <div class="cards" id="cards"></div>
+    <p class="note" id="count" aria-live="polite"></p>
+  </section>
+
+  <!-- JOURNEY -->
+  <section id="journey" class="sec wrap">
+    <header class="sec-head reveal">
+      <p class="tag">04 / learning journey</p>
+      <h2>From first program to graduate study.</h2>
+      <p>Completed milestones, what I'm working on right now, and where I want to go.</p>
+    </header>
+    <div class="pills reveal" id="jtabs" role="group" aria-label="Filter milestones"></div>
+    <ol class="timeline" id="timeline"><span class="tl-fill" id="tl-fill" aria-hidden="true"></span></ol>
+  </section>
+
+  <!-- TERMINAL -->
+  <section id="terminal" class="sec wrap">
+    <header class="sec-head reveal">
+      <p class="tag">05 / interactive terminal</p>
+      <h2>Talk to the data shell.</h2>
+      <p>A tiny command line. The anomaly command runs the same detector as the playground, live in your browser.</p>
+    </header>
+    <div class="glass term reveal">
+      <div class="term-bar"><i></i><i></i><i></i><span>hadi@universe: data-shell</span></div>
+      <div class="term-body scroll" id="termbody" role="log" aria-live="polite" aria-label="Terminal output">
+        <div id="termlines"></div>
+        <div class="term-row"><label for="term-input" class="prompt">hadi@universe:~$</label><input id="term-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal command input"></div>
+      </div>
+      <div class="term-quick"><span class="label">try</span>
+        <button type="button" data-cmd="help">help</button><button type="button" data-cmd="projects">projects</button><button type="button" data-cmd="run anomaly">run anomaly</button><button type="button" data-cmd="skills">skills</button><button type="button" data-cmd="contact">contact</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="sec wrap">
+    <header class="sec-head reveal">
+      <p class="tag">06 / contact</p>
+      <h2>Let's open a channel.</h2>
+      <p>Open to graduate study, research and internship conversations in Data Science.</p>
+    </header>
+    <div class="contact-grid">
+      <div class="channels reveal">
+        <a class="glass chan" href="mailto:m.abdulhadi788@gmail.com"><span class="ico">✉</span><span><em>Email</em><b>m.abdulhadi788@gmail.com</b></span></a>
+        <a class="glass chan" href="https://github.com/mabdulhadi788" target="_blank" rel="noopener noreferrer"><span class="ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg></span><span><em>GitHub</em><b>github.com/mabdulhadi788</b></span></a>
+        <a class="glass chan" href="tel:+923226067576"><span class="ico">☎</span><span><em>Phone</em><b>+92 322 6067576</b></span></a>
+        <div class="glass chan"><span class="ico">⌖</span><span><em>Location</em><b>Islamabad, Pakistan</b></span></div>
+      </div>
+      <form class="glass pad reveal" id="form" novalidate>
+        <label for="c-name">Name</label>
+        <input id="c-name" name="name" type="text" autocomplete="name" required>
+        <small class="err" id="e-name" role="alert"></small>
+        <label for="c-email">Email</label>
+        <input id="c-email" name="email" type="email" autocomplete="email" required>
+        <small class="err" id="e-email" role="alert"></small>
+        <label for="c-msg">Message</label>
+        <textarea id="c-msg" name="msg" rows="5" required></textarea>
+        <small class="err" id="e-msg" role="alert"></small>
+        <button class="btn primary" type="submit">Send via email app ➤</button>
+        <p class="status" id="status" role="status"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <p>© <span id="year">2026</span> Muhammad Abdul Hadi. All rights reserved.</p>
+  <a href="#top">Back to top ↑</a>
+</footer>
+
+<noscript><p style="padding:2rem;text-align:center">This portfolio is interactive and needs JavaScript. Email: m.abdulhadi788@gmail.com · GitHub: github.com/mabdulhadi788</p></noscript>
+<script src="script.js"></script>
+</body>
+</html>
